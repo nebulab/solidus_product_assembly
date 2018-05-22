@@ -28,7 +28,7 @@ module Spree
 
         it "separates variant purchased individually from the bundle one" do
           expect(shipments.count).to eql 1
-          shipments.first.manifest.map(&:variant).sort.should == expected_variants.sort
+          expect(shipments.first.manifest.map(&:variant)).to match_array expected_variants
         end
       end
 
@@ -37,7 +37,7 @@ module Spree
 
         it "groups units by line_item only" do
           expect(shipments.count).to eql 1
-          shipments.first.line_item_manifest.map(&:variant).sort.should == expected_variants.sort
+          expect(shipments.first.line_item_manifest.map(&:variant)).to match_array expected_variants
         end
       end
 
@@ -46,7 +46,7 @@ module Spree
         let(:shipment) { order.shipments.first }
 
         it "searches for line item if inventory unit doesn't have one" do
-          shipment.manifest.last.line_item.should_not be_blank
+          expect(shipment.manifest.last.line_item).not_to be_blank
         end
       end
     end
@@ -55,7 +55,7 @@ module Spree
       let(:line_item) { create(:line_item) }
       let(:variant) { line_item.variant }
       let(:order) { line_item.order }
-      let(:shipment) { create(:shipment) }
+      let(:shipment) { create(:shipment, order: order) }
 
       it "assigns variant, order and line_item" do
         unit = shipment.set_up_inventory('on_hand', variant, order, line_item)
