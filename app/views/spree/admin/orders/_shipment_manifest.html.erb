@@ -1,3 +1,4 @@
+<% shipment = Spree::Shipment.find_by(number: shipment_number) %>
 <% shipment.manifest.each do |item| %>
   <tr class="stock-item"
       data-item-quantity="<%= item.quantity %>"
@@ -37,8 +38,8 @@
 
     <td class="cart-item-delete actions" data-hook="cart_item_delete">
       <% if can? :update, item %>
-        <%= link_to '', '#', :class => 'split-item icon_link fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => Spree.t('actions.split') %>
-        <%= link_to '', '#', :class => 'delete-item fa fa-trash no-text with-tip', :data => { 'variant-id' => item.variant.id}, :title => Spree.t('actions.delete') %>
+        <%= button_tag '', :class => 'split-item icon_link fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => Spree.t('actions.split') %>
+        <%= button_tag '', :class => 'delete-item fa fa-trash no-text with-tip', :data => { 'variant-id' => item.variant.id}, :title => Spree.t('actions.delete') %>
       <% end %>
     </td>
   </tr>
